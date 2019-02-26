@@ -48,5 +48,5 @@ kitchen test
 
 
 ## Dependencies
-- wunzeco.ntp
-- fatal-exception.auditd
+- o2-priority.ntp
+- o2-priority.auditd

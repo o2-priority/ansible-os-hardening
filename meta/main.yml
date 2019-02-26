@@ -12,5 +12,5 @@ galaxy_info:
     - cis
     - os-hardening
 dependencies:
-  - { role: wunzeco.ntp }
-  - { role: fatal-exception.auditd }
+  - { role: o2-priority.ntp }
+  - { role: o2-priority.auditd }

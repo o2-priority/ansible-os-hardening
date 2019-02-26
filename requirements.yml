@@ -1,2 +1,9 @@
-- src: wunzeco.ntp
-- src: fatal-exception.auditd
+- src: git@github.com:o2-priority/ansible-auditd.git
+  version: master
+  scm: git
+  name: o2-priority.auditd
+
+- src: git@github.com:o2-priority/ansible-ntp.git
+  version: master
+  scm: git
+  name: o2-priority.ntp
