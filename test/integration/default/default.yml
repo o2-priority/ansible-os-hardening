@@ -1,10 +1,18 @@
 ---
+# Run tests before hardening
+- include_playbook: roles/ansible-os-hardening/test/integration/default/cis-benchmark.yml
+  vars:
+    cis_compliance_score_threshold: 0
+    cis_benchmark_repository: https://github.com/wunzeco/cis-ubuntu-14.04-benchmark.git
+    cis_benchmark_inspec_package: https://packages.chef.io/files/stable/inspec/3.6.6/ubuntu/16.04/inspec_3.6.6-1_amd64.deb
+  tags: [ "pre_check" ]
+
 - name: OS Hardening play
   hosts: test-kitchen
 
   vars:
     os_hardening_default_user: vagrant
-    os_hardening_dist_upgrade: true
+    os_hardening_dist_upgrade: false
     auditd_space_left_action: email
     auditd_admin_space_left_action: halt
     auditd_max_log_file_action: keep_logs
@@ -88,7 +96,6 @@
       - '-w /sbin/modprobe -p x -k modules'
       - '-a always,exit arch=b64 -S init_module -S delete_module -k modules'
 
-
   pre_tasks:
     - name: Get location of of all previleged commands to be added to auditd for monitoring
       shell: >
@@ -109,14 +116,21 @@
     # root@default-ubuntu-1404:~# cat /etc/shadow | grep vagrant
     # vagrant:$6$IQ.vbPan$8m2xDNqN19iTMGKyZ7jAG/q/Falye0BN7WYMqMQ7PGaYiwJAHJl21dYGJe2lcUmg3dhCdU8qujYBRQN7jcgrw/:17010:0:90:7:::
     #
-    - name: Update last password change day for vagrant user
-      shell: chage --lastday {{ ansible_date_time.date }} vagrant
-
+    - name: Update last password change day for user
+      shell: chage --lastday {{ ansible_date_time.date }} {{ os_hardening_default_user }}
+      when: "{{ os_hardening_default_user }} is vagrant"
 
   roles:
     - ansible-os-hardening
 
+# Run tests after hardening
+- include_playbook: roles/ansible-os-hardening/test/integration/default/cis-benchmark.yml
+  vars:
+    cis_compliance_score_threshold: 80
+    cis_benchmark_repository: https://github.com/wunzeco/cis-ubuntu-14.04-benchmark.git
+    cis_benchmark_inspec_package: https://packages.chef.io/files/stable/inspec/3.6.6/ubuntu/16.04/inspec_3.6.6-1_amd64.deb
+  tags: [ "post_check" ]
 
-- include: roles/ansible-os-hardening/test/integration/default/cis-benchmark.yml
-
-- include: roles/ansible-os-hardening/test/integration/default/cis-cat.yml
+# Generate CIS Reports
+- include_playbook: roles/ansible-os-hardening/test/integration/default/cis-cat.yml
+  tags: [ "reports" ]
