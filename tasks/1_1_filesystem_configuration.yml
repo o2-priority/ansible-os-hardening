@@ -25,6 +25,24 @@
     - 1.1.1.7
     - 1.1.1.8
 
+- name: Make sure destination dir exists
+  file:
+    path: /etc/modprobe.d
+    state: directory
+    owner: root
+    group: root
+    mode:  0644
+  tags:
+    - scored
+    - 1.1.1.1
+    - 1.1.1.2
+    - 1.1.1.3
+    - 1.1.1.4
+    - 1.1.1.5
+    - 1.1.1.6
+    - 1.1.1.7
+    - 1.1.1.8
+
 - name: Disable mounting of unneeded filesystems
   template:
     src:   modules-disable.conf.j2
