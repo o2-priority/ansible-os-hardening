@@ -117,13 +117,13 @@
 # WARNING: Changing firewall settings while connected over network can result
 #          in being locked out of the system.
 #          Do NOT do it, you most CERTAINLY will be locked out !!!
-- name: Configure default deny firewall policy
-  iptables:
-    chain: "{{ item }}"
-    policy:  DROP
-  with_items:
-    - INPUT
-    - FORWARD
-    - OUTPUT
-  when: "'3.6.2' not in os_hardening_exclusions"
-  tags: [ scored, '3.6.2' ]
+# - name: Configure default deny firewall policy
+#   iptables:
+#     chain: "{{ item }}"
+#     policy:  DROP
+#   with_items:
+#     - INPUT
+#     - FORWARD
+#     - OUTPUT
+#   when: "'3.6.2' not in os_hardening_exclusions"
+#   tags: [ scored, '3.6.2' ]
