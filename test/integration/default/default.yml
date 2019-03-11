@@ -1,6 +1,6 @@
 ---
 # Run tests before hardening
-- include_playbook: roles/ansible-os-hardening/test/integration/default/cis-benchmark.yml
+- include: roles/ansible-os-hardening/test/integration/default/cis-benchmark.yml
   vars:
     cis_compliance_score_threshold: 0
     cis_benchmark_repository: https://github.com/wunzeco/cis-ubuntu-14.04-benchmark.git
@@ -124,7 +124,7 @@
     - ansible-os-hardening
 
 # Run tests after hardening
-- include_playbook: roles/ansible-os-hardening/test/integration/default/cis-benchmark.yml
+- include: roles/ansible-os-hardening/test/integration/default/cis-benchmark.yml
   vars:
     cis_compliance_score_threshold: 80
     cis_benchmark_repository: https://github.com/wunzeco/cis-ubuntu-14.04-benchmark.git
@@ -132,5 +132,5 @@
   tags: [ "post_check" ]
 
 # Generate CIS Reports
-- include_playbook: roles/ansible-os-hardening/test/integration/default/cis-cat.yml
+- include: roles/ansible-os-hardening/test/integration/default/cis-cat.yml
   tags: [ "reports" ]

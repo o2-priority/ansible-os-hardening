@@ -20,9 +20,6 @@
         - "openjdk-8-jdk"
 
   tasks:
-    - name: START HERE
-      debug: msg='starting here'
-
     - name: Create cis-cat work dirs
       file:
         path: "{{ item }}"
@@ -61,11 +58,13 @@
 
     - debug: var=level_2
 
-    - name: Download cis-cat scan results
-      synchronize:
-        mode: pull
-        src: "{{ cis_cat_results_dir }}/"
-        dest: "./results/{{ ansible_host }}"
+    # The synchronize module doesn't work with Test Kitchen,
+    # Files are copied to the 'dest' folder on the target host
+    # - name: Download cis-cat scan results
+    #   synchronize:
+    #     mode: pull
+    #     src: "{{ cis_cat_results_dir }}/"
+    #     dest: /tmp/results/
 
   post_tasks:
     - name: Remove packages
