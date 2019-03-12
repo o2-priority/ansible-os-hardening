@@ -45,3 +45,17 @@
     - /etc/cron.allow
   when: "'5.1.8' not in os_hardening_exclusions"
   tags: [ scored, '5.1.8' ]
+
+# 5.1.8 Ensure at/cron is restricted to authorized users (Scored)
+- name: Remove *.deny files - use *.allow files only
+  file:
+    path:  "{{ item }}"
+    owner: 'root'
+    group: 'root'
+    mode:  0600
+    state: absent
+  with_items:
+    - /etc/at.deny
+    - /etc/cron.deny
+  when: "'5.1.8' not in os_hardening_exclusions"
+  tags: [ scored, '5.1.8' ]
