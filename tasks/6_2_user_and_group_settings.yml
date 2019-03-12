@@ -142,6 +142,7 @@
   file:
     path: "{{ item }}"
     mode: 0750
+    follow: yes
   with_items: "{{ home_dirs_perms_audit.stdout_lines }}"
   when: not home_dirs_perms_audit|skipped
 
