@@ -101,3 +101,14 @@
     - /etc/profile
   when: "'5.4.4' not in os_hardening_exclusions"
   tags: [ scored, '5.4.4' ]
+
+# 5.4.5 Ensure default user shell timeout is 900 seconds or less
+- name: Ensure default user shell timeout is 900 seconds or less
+  lineinfile:
+    path: "{{ item }}"
+    line: 'TMOUT=600'
+  with_items:
+    - /etc/bash.bashrc
+    - /etc/profile
+  when: "'5.4.5' not in os_hardening_exclusions"
+  tags: [ scored, '5.4.5' ]
