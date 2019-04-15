@@ -74,15 +74,26 @@
 # 1.1.11 Ensure separate partition exists for /var/log/audit (Scored)
 # 1.1.12 Ensure separate partition exists for /home (Scored)
 # 1.1.13 Ensure nodev option set on /home partition (Scored)
+
 # 1.1.14 Ensure nodev option set on /run/shm partition (Scored)
 # 1.1.15 Ensure nosuid option set on /run/shm partition (Scored)
 # 1.1.16 Ensure noexec option set on /run/shm partition (Scored)
+- name: Set mount options for /dev/shm
+  mount:
+    path: /dev/shm
+    src: tempfs
+    fstype: tempfs
+    opts: defaults,nodev,nosuid,noexec
+    state: mounted
+  tags:
+    - scored
+    - 1.1.14
+    - 1.1.15
+    - 1.1.16
+
 # 1.1.17 Ensure nodev option set on removable media partitions (Not Scored)
 # 1.1.18 Ensure nosuid option set on removable media partitions (Not Scored)
 # 1.1.19 Ensure noexec option set on removable media partitions (Not Scored)
-
-- debug: msg='1.1.2 - 1.1.19 | Not Implemented as they relate to filesystem partitions and mount options that require out of bound config'
-
 
 # 1.1.20 Ensure sticky bit is set on all world-writable directories (Scored)
 - name: Set the sticky bit on all world writable directories
