@@ -58,14 +58,6 @@
 
     - debug: var=level_2
 
-    # The synchronize module doesn't work with Test Kitchen,
-    # Files are copied to the 'dest' folder on the target host
-    # - name: Download cis-cat scan results
-    #   synchronize:
-    #     mode: pull
-    #     src: "{{ cis_cat_results_dir }}/"
-    #     dest: /tmp/results/
-
   post_tasks:
     - name: Remove packages
       apt:
@@ -74,3 +66,7 @@
       with_items:
         - "unzip"
         - "openjdk-8-jdk"
+
+    - name: Download Reports
+      local_action: command rsync -a {{ inventory_hostname }}:/var/tmp/cis/results ./results
+      become: no
