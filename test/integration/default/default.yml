@@ -118,7 +118,7 @@
     #
     - name: Update last password change day for user
       shell: chage --lastday {{ ansible_date_time.date }} {{ os_hardening_default_user }}
-      when: "{{ os_hardening_default_user }} is vagrant"
+      when: os_hardening_default_user == "vagrant"
 
   roles:
     - ansible-os-hardening

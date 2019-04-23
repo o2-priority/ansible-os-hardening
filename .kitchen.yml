@@ -6,10 +6,8 @@ driver:
 provisioner:
   name: ansible_playbook
   hosts: test-kitchen
-  requirements_path: requirements.yml
   require_chef_for_busser: false
   require_ansible_omnibus: false
-  # ansible_inventory:
   ansible_verbose:  false
   ansible_verbosity: 2
   ansible_diff: true
@@ -18,6 +16,8 @@ provisioner:
     - .kitchen
   ssh_known_hosts:
     - github.com
+  extra_vars:
+    os_hardening_default_user: vagrant
 
 platforms:
   - name: ubuntu-16.04
